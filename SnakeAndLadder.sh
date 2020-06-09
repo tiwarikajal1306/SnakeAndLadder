@@ -1,4 +1,3 @@
-#!/bin/bash -x
 INITIAL_POSITION=0
 NO_PLAY=0
 LADDER=1
@@ -6,9 +5,14 @@ SNAKE=2
 WINNING_POSITION=100
 
 playerPosition=$INITIAL_POSITION
+
+declare -a positionTrack
+
+count=0
 while [ $playerPosition -ne $WINNING_POSITION ]
 do
 	rollTheDie=$((RANDOM%6 + 1))
+	((count++))
 	optionForPlayer=$((RANDOM%3))
 
 	case $optionForPlayer in
@@ -31,6 +35,11 @@ do
 	then
 		playerPosition=$INITIAL_POSITION
 	fi
-
-	echo "Player Position is $playerPosition"
+	positionTrack[$count]=$playerPosition
 done
+
+for((counter=1;counter<=count;counter++))
+do
+	echo "chance $counter : ${positionTrack[$counter]}"
+done
+echo "Number of chances played : $count"
