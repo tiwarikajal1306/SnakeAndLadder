@@ -1,5 +1,25 @@
 #!/bin/bash -x
-player=1
-position=0
+INITIAL_POSITION=0
+NO_PLAY=0
+LADDER=1
+SNAKE=2
+
+playerPosition=$INITIAL_POSITION
+
 rollTheDie=$((RANDOM%6 + 1))
-echo "After roll the die player got the $rollTheDie Number"
+optionForPlayer=$((RANDOM%3))
+
+	case $optionForPlayer in
+	$NO_PLAY)
+		playerPosition=$(( playerPosition + 0 ))
+		;;
+	$SNAKE)
+                playerPosition=$(( playerPosition - rollTheDie ))
+		;;
+	$LADDER)
+                playerPosition=$(( playerPosition + rollTheDie ))
+		;;
+	esac
+
+echo "Player Position is $playerPosition"
+
