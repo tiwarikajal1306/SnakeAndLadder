@@ -3,11 +3,13 @@ INITIAL_POSITION=0
 NO_PLAY=0
 LADDER=1
 SNAKE=2
+WINNING_POSITION=100
 
 playerPosition=$INITIAL_POSITION
-
-rollTheDie=$((RANDOM%6 + 1))
-optionForPlayer=$((RANDOM%3))
+while [ $playerPosition -le $WINNING_POSITION ]
+do
+	rollTheDie=$((RANDOM%6 + 1))
+	optionForPlayer=$((RANDOM%3))
 
 	case $optionForPlayer in
 	$NO_PLAY)
@@ -21,5 +23,11 @@ optionForPlayer=$((RANDOM%3))
 		;;
 	esac
 
-echo "Player Position is $playerPosition"
 
+	if [ $playerPosition -lt  0 ]
+	then
+		playerPosition=$INITIAL_POSITION
+	fi
+
+	echo "Player Position is $playerPosition"
+done
