@@ -1,4 +1,5 @@
 #!/bin/bash -x
 player=1
 position=0
-echo "$player player and his position is $position"
+rollTheDie=$((RANDOM%6 + 1))
+echo "After roll the die player got the $rollTheDie Number"
