@@ -1,2 +1,4 @@
 #!/bin/bash -x
-echo "Welocome to Snake And Ladder"
+player=1
+position=0
+echo "$player player and his position is $position"
