@@ -6,7 +6,7 @@ SNAKE=2
 WINNING_POSITION=100
 
 playerPosition=$INITIAL_POSITION
-while [ $playerPosition -le $WINNING_POSITION ]
+while [ $playerPosition -ne $WINNING_POSITION ]
 do
 	rollTheDie=$((RANDOM%6 + 1))
 	optionForPlayer=$((RANDOM%3))
@@ -24,7 +24,10 @@ do
 	esac
 
 
-	if [ $playerPosition -lt  0 ]
+	if [ $playerPosition -gt  $WINNING_POSITION ]
+	then
+		playerPosition=$(( playerPosition - rollTheDie ))
+	elif [ $playerPosition -lt $INITIAL_POSITION ]
 	then
 		playerPosition=$INITIAL_POSITION
 	fi
