@@ -4,42 +4,81 @@ LADDER=1
 SNAKE=2
 WINNING_POSITION=100
 
-playerPosition=$INITIAL_POSITION
+player1Position=$INITIAL_POSITION
+player2Position=$INITIAL_POSITION
 
-declare -a positionTrack
-
-count=0
-while [ $playerPosition -ne $WINNING_POSITION ]
+declare -a positionTrack1
+declare -a positionTrack2
+count1=0
+count2=0
+while [[ $player1Position -ne $WINNING_POSITION && $player2Position -ne $WINNING_POSITION ]]
 do
 	rollTheDie=$((RANDOM%6 + 1))
-	((count++))
-	optionForPlayer=$((RANDOM%3))
+	((count1++))
+	optionForPlayer=$LADDER
+	while((optionForPlayer==LADDER))
+	do
+		optionForPlayer=$((RANDOM%3))
 
-	case $optionForPlayer in
-	$NO_PLAY)
-		playerPosition=$(( playerPosition + 0 ))
-		;;
-	$SNAKE)
-                playerPosition=$(( playerPosition - rollTheDie ))
-		;;
-	$LADDER)
-                playerPosition=$(( playerPosition + rollTheDie ))
-		;;
-	esac
+		case $optionForPlayer in
+		$NO_PLAY)
+			player1Position=$(( player1Position + 0 ))
+			;;
+		$SNAKE)
+	                player1Position=$(( player1Position - rollTheDie ))
+			;;
+		$LADDER)
+	                player1Position=$(( player1Position + rollTheDie ))
+			;;
+		esac
 
 
-	if [ $playerPosition -gt  $WINNING_POSITION ]
+		if [ $player1Position -gt  $WINNING_POSITION ]
+		then
+			player1Position=$(( player1Position - rollTheDie ))
+		elif [ $player1Position -lt $INITIAL_POSITION ]
+		then
+			player1Position=$INITIAL_POSITION
+		fi
+		positionTrack1[$count1]=$player1Position
+	done
+	if [ $player1Position -ne $WINNING_POSITION ]
 	then
-		playerPosition=$(( playerPosition - rollTheDie ))
-	elif [ $playerPosition -lt $INITIAL_POSITION ]
-	then
-		playerPosition=$INITIAL_POSITION
+		rollTheDie=$((RANDOM%6 + 1))
+	        ((count2++))
+        	optionForPlayer=$LADDER
+		while((optionForPlayer==LADDER))
+		do
+			optionForPlayer=$((RANDOM%3))
+
+	        	case $optionForPlayer in
+	        	$NO_PLAY)
+	                	player2Position=$(( player2Position + 0 ))
+	                	;;
+	        	$SNAKE)
+	                	player2Position=$(( player2Position - rollTheDie ))
+	                	;;
+	        	$LADDER)
+	                	player2Position=$(( player2Position + rollTheDie ))
+	                	;;
+	        	esac
+
+
+		        if [ $player2Position -gt  $WINNING_POSITION ]
+		        then
+		                player2Position=$(( player2Position - rollTheDie ))
+		        elif [ $player2Position -lt $INITIAL_POSITION ]
+		        then
+		                player2Position=$INITIAL_POSITION
+		        fi
+		        positionTrack2[$count2]=$player2Position
+		done
 	fi
-	positionTrack[$count]=$playerPosition
 done
 
-for((counter=1;counter<=count;counter++))
-do
-	echo "chance $counter : ${positionTrack[$counter]}"
-done
-echo "Number of chances played : $count"
+if  [ ${positionTrack1[$count1]} -eq $WINNING_POSITION ]
+then
+	echo "Winner is player1"
+else
+	echo "Winner is player2"
+fi
